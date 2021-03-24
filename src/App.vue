@@ -1,17 +1,27 @@
-<template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+<template lang='pug'>
+.views
+  .mainpage
+    router-view
 </template>
 
-<style lang="stylus">
+
+<script>
+export default {
+
+}
+</script>
+
+
+<style lang='stylus' scoped>
 #app
   font-family Avenir, Helvetica, Arial, sans-serif
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
   text-align center
   color #2c3e50
-  margin-top 60px
+  // margin-top 60px
+.views
+  .mainpage
+    #separator
+      width 1000px
 </style>

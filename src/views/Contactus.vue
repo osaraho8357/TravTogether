@@ -3,24 +3,24 @@
   .navbar
     NavbarComponent
   .mainpage
-    AboutComponent
+    ContactusComponent
   .footer
     FooterComponent
 </template>
 
 
 <script>
-import AboutComponent from '@/components/AboutComponent.vue'
+import {defineComponent} from 'vue'
+import ContactusComponent from '@/components/ContactusComponent.vue'
 import NavbarComponent from '@/components/NavbarComponent.vue'
 import FooterComponent from '@/components/FooterComponent.vue'
-
-export default {
+export default defineComponent({
   components: {
-    AboutComponent,
+    ContactusComponent,
     NavbarComponent,
     FooterComponent,
   }
-}
+})
 </script>
 
 

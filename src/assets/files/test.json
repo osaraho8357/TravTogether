@@ -1,0 +1,86 @@
+[
+  {
+    "city": "`Ajlun",
+    "country": "Jordan",
+    "lat": 32.3333,
+    "lng": 35.7528,
+    "state": "‘Ajlūn",
+    "iso2": "JO",
+    "iso3": "JOR",
+    "capital": "admin",
+    "population": "",
+    "id": 1400775371
+  },
+  {
+    "city": "`Ajman",
+    "country": "United Arab Emirates",
+    "lat": 25.4056,
+    "lng": 55.4618,
+    "state": "‘Ajmān",
+    "iso2": "AE",
+    "iso3": "ARE",
+    "capital": "admin",
+    "population": "",
+    "id": 1784337875
+  },
+  {
+    "city": "`Amran",
+    "country": "Yemen",
+    "lat": 15.6594,
+    "lng": 43.9439,
+    "state": "‘Amrān",
+    "iso2": "YE",
+    "iso3": "YEM",
+    "capital": "admin",
+    "population": "",
+    "id": 1887433410
+  },
+  {
+    "city": "25 de Mayo",
+    "country": "Argentina",
+    "lat": -37.8,
+    "lng": -67.6833,
+    "state": "La Pampa",
+    "iso2": "AR",
+    "iso3": "ARG",
+    "capital": "minor",
+    "population": 17430,
+    "id": 1032912712
+  },
+  {
+    "city": "28 de Noviembre",
+    "country": "Argentina",
+    "lat": -51.65,
+    "lng": -72.3,
+    "state": "Santa Cruz",
+    "iso2": "AR",
+    "iso3": "ARG",
+    "capital": "",
+    "population": 5300,
+    "id": 1032715340
+  },
+  {
+    "city": "Aalborg",
+    "country": "Denmark",
+    "lat": 57.0337,
+    "lng": 9.9166,
+    "state": "Nordjylland",
+    "iso2": "DK",
+    "iso3": "DNK",
+    "capital": "admin",
+    "population": 122219,
+    "id": 1208789278
+  },
+  {
+    "city": "Aarau",
+    "country": "Switzerland",
+    "lat": 47.3896,
+    "lng": 8.0524,
+    "state": "Aargau",
+    "iso2": "CH",
+    "iso3": "CHE",
+    "capital": "admin",
+    "population": "",
+    "id": 1756722157
+  }
+]

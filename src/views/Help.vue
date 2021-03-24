@@ -3,20 +3,19 @@
   .navbar
     NavbarComponent
   .mainpage
-    AboutComponent
+    HelpComponent
   .footer
     FooterComponent
 </template>
 
 
 <script>
-import AboutComponent from '@/components/AboutComponent.vue'
+import HelpComponent from '@/components/HelpComponent.vue'
 import NavbarComponent from '@/components/NavbarComponent.vue'
 import FooterComponent from '@/components/FooterComponent.vue'
-
 export default {
   components: {
-    AboutComponent,
+    HelpComponent,
     NavbarComponent,
     FooterComponent,
   }
