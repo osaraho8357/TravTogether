@@ -3,6 +3,19 @@
   .page
     .left
       img(:src="user.userPhotoURL" alt="")
+    .right
+      .top
+        p {{ user.nickname }}
+        p.fas.fa-map-marker-alt
+        button#button Send Message
+        button#button Chat
+      .bottom
+        p.fas.fa-user About
+        p Location: {{ user.location }}
+        p Email: {{ user.email }}
+        p Gender: {{ user.gender }}
+        p {{ user.bio }}
+
 </template>
 
 
