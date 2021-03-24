@@ -127,6 +127,7 @@ export default {
             // 0 3px 14px 2px rgba(0,0,0,0.12)
           #userPhoto
             width 150px
+            height 150px
             border-radius 50%
           .userInfo
             display flex
