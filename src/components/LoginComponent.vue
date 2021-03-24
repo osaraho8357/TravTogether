@@ -1,7 +1,8 @@
 <template lang='pug'>
 .main
   .top
-    img#logo(src="@/assets/TravTogether-logo.png")
+    a(href="/")
+      img#logo(src="@/assets/TravTogether-logo.png")
     hr#separator
   .bottom
     p#title To continue, log in to TravTogether
@@ -145,6 +146,7 @@ export default {
       width 300px
       height auto
       margin 10px
+      cursor pointer
   .bottom
     #title
       font-size 15px

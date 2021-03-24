@@ -1,7 +1,8 @@
 <template lang='pug'>
 .main
   .top
-    img#logo(src="@/assets/TravTogether-logo.png")
+    a(href="/")
+      img#logo(src="@/assets/TravTogether-logo.png")
     hr#separator
   p#title Sign up with your email address
   .bottom
@@ -72,33 +73,21 @@
           .select
             select#location
               option(label='', selected disabled) ---
-              option(:value="location[0]+', '+location[4]+', '+location[1]" v-for="(location, index) in locations" :key="index")
-                .with-state(v-if="['USA', 'CHN', 'RUS'].includes(location[6])")
-                  | {{ location[0] }}, {{ location[4] }}, {{ location[1] }}
+              option(:value="location.city+', '+location.state+', '+location.country" v-for="(location, index) in locations" :key="index")
+                .with-state(v-if="['USA', 'CHN', 'RUS'].includes(location.iso3)")
+                  | {{ location.city }}, {{ location.state }}, {{ location.country }}
                 .without-state(v-else)
-                  | {{ location[0] }}, {{ location[1] }}
+                  | {{ location.city }}, {{ location.country }}
         .button
           button#button SIGN UP
         .login
           p Have an account? &nbsp;
           router-link(to="/login") Log in
-          //- input(type="file" @change="onFileChange")
-          //- p {{ locations }}[0]
-          //- p {{ locations[0] }}
-        //- <form enctype="multipart/form-data">
-        //-   <input type="file" @change="onFileChange">
-        //- </form>
-        //- a(href="@/assets/files/worldcities_small.csv") Dpw
 </template>
 
 
 <script>
 export default {
-  setup() {
-    const config = require('../assets/files/test.json')
-    console.log(config)
-
-  },
   data() {
     return {
       locations: [],
@@ -109,37 +98,8 @@ export default {
   },
   methods: {
     async getLocations() {
-      // const response = await fetch(WORLDCITIES);
-      // const text = await response.text();
-      // const locs = text.split('\n')
-      // for (let i=1; i<locs.length-1; i++) {
-      //   const lala = locs[i].split(',')
-      //   this.locations.push(lala);
-      // }
-      const cities = await fetch('../assets/files/test.json')
-      console.log(typeof(cities))
-      const citiesJSON = await cities.json();
-      console.log(citiesJSON)
-      // this.locations = citiesJSON
-      // console.log(this.locations)
-    },
-    // async onFileChange(e: any) {
-    //   const reader = new FileReader();
-    //   const file = e.target.files[0];
-    //   reader.onload = (e: any) => {
-    //     this.locations = e.target.result.split('\n')
-    //     console.log(this.locations)
-    //   }
-    //   reader.readAsText(file);
-    // },
-    // addScript(script: string) {
-    //   const parseScript = document.createElement('script')
-    //   // parseScript.setAttribute('src', "https://unpkg.com/papaparse@5.3.0/papaparse.min.js")
-    //   // https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js
-    //   parseScript.setAttribute('src', script)
-    //   document.head.appendChild(parseScript)
-    //   console.log(script)
-    // }
+      this.locations = require('../assets/files/worldcities.json')
+    }
   },
 }
 </script>
@@ -155,6 +115,8 @@ export default {
       width 300px
       height auto
       margin 10px
+      cursor pointer
+        
   #title
     font-size 15px
     font-weight bold
