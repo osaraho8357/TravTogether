@@ -74,6 +74,13 @@ export default {
     }
   },
 
+  watch: {
+    user(newValue, oldValue) {
+      console.log("New Value: " + newValue, "Old Value: " + oldValue)
+      document.location.href="/"
+    }
+  },
+
   methods: {
     fillupNewUserForm(user) {
       this.newUserForm.email = user.email
@@ -119,7 +126,6 @@ export default {
     },
     async login() {
       await this.store.dispatch('user/Login', this.userForm)
-      document.location.href="/"
     },
     async registerNewUser() {
       await this.store.dispatch('user/RegisterNewUser', this.newUserForm)

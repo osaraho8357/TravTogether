@@ -47,10 +47,17 @@ export default {
       user: computed(() => store.getters['user/getUser']),
     }
   },
+
+  watch: {
+    user(newValue, oldValue) {
+      console.log("New Value: " + newValue, "Old Value: " + oldValue)
+      document.location.href="/"
+    }
+  },
+  
   methods: {
     async logout() {
       this.store.dispatch('user/Logout');
-      document.location.href="/"
     },
     goto(slug) {
       router.push(slug)
