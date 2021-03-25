@@ -13,19 +13,11 @@
     hr#separator
     .people
       .haveusers(v-if="allUsers")
-        .user(v-for="(user,index) in allUsers" :key="index")
+        .user(v-for="(user,index) in allUsers" :key="index"
+        @click="setRetrievedUser(user.slug)")
           img#userPhoto(:src="user.userPhotoURL")
           .userInfo
-            p#space &ensp;
             p#userName {{ user.nickname }}
-            .male(v-if="user.gender === 'Male'")
-              p.fas.fa-mars#gender
-            .female(v-else-if="user.gender === 'Female'")
-              p.fas.fa-venus#gender
-            .non-binary(v-else-if="user.gender === 'Non-binary'")
-              p.fas.fa-transgender-alt#gender
-            .nothing(v-else)
-              p#space &ensp;
           .location(v-if="user.location")
             p#location {{ user.location }}
           .nolocation(v-else)
@@ -33,6 +25,7 @@
       .nousers(v-else)
         p#message Empty
 </template>
+:href="'/user/'+user.slug"
 
 
 <script>
@@ -45,6 +38,7 @@ export default {
     return {
       store,
       allUsers: computed(() => store.getters['user/getAllUsers']),
+      retrievedUser: computed(() => store.getters['user/getRetrievedUser'])
     }
   },
 
@@ -52,6 +46,13 @@ export default {
     return {
       filters: ['All', 'Country', 'City', 'Nickname'],
     }
+  },
+
+  methods: {
+    async setRetrievedUser(userSlug) {
+      await this.store.dispatch("user/RetrieveUser", userSlug)
+      document.location.href=`/user/${userSlug}`
+    },
   },
 }
 </script>
@@ -113,15 +114,17 @@ export default {
         margin 0 50px
         display flex
         .user
+          font-family Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif
+          text-decoration none 
+          color black
           text-align center
           width 200px
           height 250px
-          // border 2px dotted gray
           margin 10px
           cursor pointer
           transition 0.1s ease
           &:hover 
-            transform scale(1.05)
+            transform scale(1.08)
             // box-shadow 0 5px 5px -3px rgba(0,0,0,0.2),
             // 0 8px 10px 1px rgba(0,0,0,0.14),
             // 0 3px 14px 2px rgba(0,0,0,0.12)
@@ -130,14 +133,10 @@ export default {
             height 150px
             border-radius 50%
           .userInfo
-            display flex
-            justify-content space-between
-            margin 0 30px
             margin-top 10px
             #userName
               font-weight bold
-            #gender
-              font-size 20px
+              margin-bottom 5px
       .nousers
         #message
           margin 100px 

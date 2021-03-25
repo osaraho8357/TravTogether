@@ -26,7 +26,7 @@
             p#chat.fas.fa-comments 
             p#num : 0
       .buttons
-        a#button(:href="`/user/${user.slug}`") ACCOUNT
+        button#button(@click="setRetrievedUser(user.slug)") ACCOUNT
         button#button(@click="logout") LOGOUT
     .loggedout(v-else)
       a(href="/login")
@@ -61,6 +61,10 @@ export default {
     },
     goto(slug) {
       router.push(slug)
+    },
+    async setRetrievedUser(userSlug) {
+      await this.store.dispatch('user/RetrieveUser', userSlug)
+      document.location.href=`/user/${userSlug}`
     }
   }
 }

@@ -77,6 +77,8 @@ export const actions = {
   },
   // =====================================================
   async RetrieveUser({commit}, slug) {
+    // const slugForm = new FormData()
+    // slugForm.append('slug', slug)
     try {
       const response = await axios.get(USERSURL+slug)
       commit('setRetrievedUser', response.data)
