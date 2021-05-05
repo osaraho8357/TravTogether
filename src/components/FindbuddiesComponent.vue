@@ -5,15 +5,18 @@
       h1#title Search Buddies
     .filters
       #filter(v-for="(filter, index) in filters" :key="index")
-        | {{ filter }}
+        button(@click="selectFilter(filter)"
+        :class="{'selected': filter === selectedFilter, 'notSelected': filter !== selectedFilter}") {{ filter }}
     .input
       .content
-        input#input(type="text" placeholder="Search for people")
-        p#searchbutton.fas.fa-search
+        input#input(type="text" placeholder="Search for people"
+        v-model="search"
+        @keyup.enter="getFilter(selectedFilter)")
+        p#searchbutton.fas.fa-search(@click="getFilter(selectedFilter)")
     hr#separator
     .people
-      .haveusers(v-if="allUsers")
-        .user(v-for="(user,index) in allUsers" :key="index"
+      .haveusers(v-if="filteredUsers")
+        .user(v-for="(user,index) in filteredUsers" :key="index"
         @click="setRetrievedUser(user.slug)")
           img#userPhoto(:src="user.userPhotoURL")
           .userInfo
@@ -25,34 +28,64 @@
       .nousers(v-else)
         p#message Empty
 </template>
-:href="'/user/'+user.slug"
 
 
 <script>
-import {computed} from 'vue'
+import {computed, ref} from 'vue'
 import {useStore} from 'vuex'
 export default {
   setup() {
     const store = useStore()
-    store.dispatch('user/GetAllUsers');
+    const filteredUsers = ref(store.dispatch('user/GetAllUsers'))
+    const search = ref("")
+    const selectedFilter = ref("")
+    store.dispatch('user/GetAllUsers')
     return {
       store,
       allUsers: computed(() => store.getters['user/getAllUsers']),
-      retrievedUser: computed(() => store.getters['user/getRetrievedUser'])
+      filteredUsers,
+      selectedFilter,
+      search,
+      retrievedUser: computed(() => store.getters['user/getRetrievedUser']),
+      user: computed(() => store.getters['user/getUser']),
+      isAuthenticated: computed(() => store.getters['user/isAuthenticated'])
     }
   },
 
   data() {
     return {
-      filters: ['All', 'Country', 'City', 'Nickname'],
+      filters: ['All', 'Location', 'Nickname'],
     }
   },
 
   methods: {
     async setRetrievedUser(userSlug) {
-      await this.store.dispatch("user/RetrieveUser", userSlug)
-      document.location.href=`/user/${userSlug}`
+      if (!this.user) {
+        alert("Please login first.")
+      } else {
+        await this.store.dispatch("user/RetrieveUser", userSlug)
+        document.location.href=`/user/${userSlug}`
+      }
     },
+    async getFilter(filter) {
+      this.selectedFilter = filter;
+      if (this.selectedFilter === "Nickname") {
+        this.filteredUsers = this.allUsers.filter(user => user.nickname.toLowerCase().includes(this.search.toLowerCase()));
+      } else if (this.selectedFilter === "Location") {
+        this.filteredUsers = this.allUsers.filter(user => user.location.toLowerCase().includes(this.search.toLowerCase()));
+      }
+    },
+    async selectFilter(filter) {
+      if (this.selectedFilter !== filter) {
+        this.selectedFilter = filter;
+        this.search = ""
+        if (filter === 'All') {
+          this.filteredUsers = this.allUsers;
+        } else {
+          this.filteredUsers = null;
+        }
+      }
+    }
   },
 }
 </script>
@@ -81,18 +114,24 @@ export default {
       left 50%
       transform translateX(-50%)
       #filter
-        text-align center
-        cursor pointer
-        font-weight bold
-        font-size 12px
-        padding 8px
-        width 80px
-        border none
-        background #f2f2f2
-        cursor pointer
-        transition all 0.1s ease
-        &:hover
-          background #cccccc
+        button
+          outline none
+          text-align center
+          cursor pointer
+          font-weight bold
+          font-size 12px
+          padding 8px
+          width 80px
+          border none
+          background #f2f2f2
+          transition all 0.1s ease
+          &:hover
+            background #cccccc
+        .selected
+          color white
+          transition 0.2s
+          background-color rgb(123,165,221)
+          outline none
     .input
       margin 40px 0
       .content
@@ -100,7 +139,7 @@ export default {
         #input
           font-size 20px
           border none 
-          width 1200px
+          width 50em
           border-bottom solid 1px black
           outline none
         #searchbutton

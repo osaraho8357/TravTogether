@@ -7,27 +7,31 @@
   p#title Sign up with your email address
   .bottom
     .form
-      form#form(@submit="submit")
+      form#form(@submit.prevent="submit")
         .email
           .label
             label#label(for="email") What's your email?
           .input
-            input#email(name="email" type="email" placeholder="  Enter your email.")
+            input#email(name="email" type="email" placeholder="  Enter your email."
+            v-model="registrationForm.email")
         .confirm-email
           .label
             label#label(for="confirm-email") Confirm your email
           .input
-            input#confirm-email(name="confirm-email" type="email" placeholder="  Enter your email again.")
+            input#confirm-email(name="confirm-email" type="email" placeholder="  Enter your email again."
+            v-model="registrationForm.confirmEmail")
         .password
           .label
             label#label(for="password") Create a password
           .input
-            input#password(name="password" type="password" placeholder="  Create a password.")
+            input#password(name="password" type="password" placeholder="  Create a password."
+            v-model="registrationForm.password")
         .nickname
           .label
             label#label(for="nickname") What should we call you?
           .input
-            input#nickname(name="nickname" type="text" placeholder="  Enter a nickname.")
+            input#nickname(name="nickname" type="text" placeholder="  Enter a nickname."
+            v-model="registrationForm.nickname")
         .gender
           .label
             label#label(for="gender") Gender
@@ -35,18 +39,18 @@
             form
             #radio
               label#label(for="Male") Male
-              input#male(type="radio" value="Male" name="gender")
+              input#male(type="radio" value="Male" name="gender" v-model="registrationForm.gender")
             #radio
               label#label(for="Female") Female
-              input#female(type="radio" value="Female" name="gender")
+              input#female(type="radio" value="Female" name="gender" v-model="registrationForm.gender")
             #radio
               label#label(for="Non-binary") Non-binary
-              input#non-binary(type="radio" value="Non-binary" name="gender")
+              input#non-binary(type="radio" value="Non-binary" name="gender" v-model="registrationForm.gender")
         .age
           .label
             label#label(for="age") Age
           .select
-            select#age
+            select#age(v-model="registrationForm.age")
               option(label='', selected disabled) ---
               option(value='10-') 10-
               option(value="10-20") 10 - 20
@@ -59,7 +63,7 @@
           .label
             label#label(for="ethnicity") Ethnicity
           .select
-            select#ethnicity
+            select#ethnicity(v-model="registrationForm.ethnicity")
               option(label='', selected disabled) ---
               option(value="American Indian / Alaska Native") American Indian / Alaska Native
               option(value="Asian") Asian
@@ -71,7 +75,7 @@
           .label
             label#label(for="location") Location
           .select
-            select#location
+            select#location(v-model="registrationForm.location")
               option(label='', selected disabled) ---
               option(:value="location.city+', '+location.state+', '+location.country" v-for="(location, index) in locations" :key="index")
                 .with-state(v-if="['USA', 'CHN', 'RUS'].includes(location.iso3)")
@@ -79,7 +83,7 @@
                 .without-state(v-else)
                   | {{ location.city }}, {{ location.country }}
         .button
-          button#button SIGN UP
+          button#button(type="submit") SIGN UP
         .login
           p Have an account? &nbsp;
           router-link(to="/login") Log in
@@ -87,7 +91,27 @@
 
 
 <script>
+import {useStore} from 'vuex'
+import router from '@/router'
+import {DEFAULT_PHOTO_URL} from '../store/urls'
 export default {
+  setup() {
+    const store = useStore()
+    const registrationForm = {
+      email: "",
+      nickname: "",
+      gender: "",
+      age: "",
+      ethnicity: "",
+      location: "",
+      fromFirebase: false,
+      userPhotoURL: DEFAULT_PHOTO_URL,
+      password: "",
+    }
+    return {
+      store, registrationForm,
+    }
+  },
   data() {
     return {
       locations: [],
@@ -99,6 +123,19 @@ export default {
   methods: {
     async getLocations() {
       this.locations = require('../assets/files/worldcities.json')
+    },
+    async submit() {
+      if (this.registrationForm.email === "" ||
+      this.registrationForm.password === "") {
+        alert("Please enter your email and password");
+      } else {
+        try {
+          await this.store.dispatch('user/RegisterNewUser', this.registrationForm)
+          router.push('/login');
+        } catch (error) {
+          console.log(error + " Registration Error");
+        }
+      }
     }
   },
 }

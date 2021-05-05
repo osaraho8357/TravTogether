@@ -100,7 +100,7 @@ export const actions = {
     const userForm = new FormData()
     userForm.append('email', User.email)
     userForm.append('password', User.password)
-    await axios.post(AUTHENTICATIONURL, userForm)
+    // await axios.post(AUTHENTICATIONURL, userForm)
     try {
       await axios.post(AUTHENTICATIONURL, userForm)
       await dispatch('GetUser', userForm)
